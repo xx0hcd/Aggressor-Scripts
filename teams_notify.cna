@@ -1,0 +1,14 @@
+#send notification via MS Teams incoming webhook
+#author: xx0hcd
+
+$uri = "<ms teams connector webhook URL goes here";
+
+@date = tstamp(ticks());
+$str_date = @date;
+$msg = "{\"title\": \"New Beacon Session\", \"text\": \"New Beacon Established on: $str_date\", \"themeColor\": \"00A7EA\"}";
+$header = "Content-Type: application/json";
+
+on beacon_initial {
+		@cmd = @("curl","-H", $header, "-d", $msg, $uri);
+		exec(@cmd);
+}
